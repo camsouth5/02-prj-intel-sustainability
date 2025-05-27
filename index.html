@@ -148,11 +148,14 @@
       const timeline = document.querySelector('section');
       if (timeline) {
         timeline.addEventListener('wheel', function(e) {
-          if (e.deltaY !== 0) {
+          // Only prevent default if NOT hovering a card
+          const hoveredCard = Array.from(timeline.children).some(card => card.matches(':hover'));
+          if (e.deltaY !== 0 && !hoveredCard) {
             e.preventDefault();
             // Increase the scroll sensitivity by multiplying deltaY
             timeline.scrollLeft += e.deltaY * 3;
           }
+          // If hovering a card, allow default vertical scroll
         }, { passive: false });
       }
     });
